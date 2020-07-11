@@ -6,7 +6,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String> todolist = [];
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +23,7 @@ class _HomeState extends State<Home> {
               color: Colors.white,
             ),
             onPressed: () {
+              Navigator.pushNamed(context, '/listscreen');
               // do something
             },
           )
@@ -32,3 +32,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
