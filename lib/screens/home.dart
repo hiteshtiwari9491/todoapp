@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
 
-        title: Text('My To Do App'),
+        title: Text('Demo app'),
         centerTitle: true,
        // elevation: 5.0,
         actions: <Widget>[
