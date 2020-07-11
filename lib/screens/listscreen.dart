@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/view_models/todo_list_view_model.dart';
+
+import '../common_widgets/error_dialog.dart';
 
 class ListScreen extends StatefulWidget {
   @override
@@ -7,6 +11,13 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   TextEditingController _textEditingController = TextEditingController();
+  TodoListViewModel _provider;
+
+  @override
+  void initState() {
+    super.initState();
+    _provider = Provider.of<TodoListViewModel>(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +40,29 @@ class _ListScreenState extends State<ListScreen> {
                 suffixIcon: IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    print("TEXT ENTERED IS  - ${_textEditingController.text}");
+                    if (_textEditingController.text != null &&
+                        _textEditingController.text.isNotEmpty) {
+                      _provider.todoList.add(_textEditingController.text);
+                      Navigator.pop(context);
+//                      providerCallback<TodoListViewModel>(
+//                        context,
+//                        task: (provider) async {
+//                          provider.addToList(_textEditingController.text);
+//                        },
+//                        taskName: (provider) => provider.CREATE_TODO,
+//                        onSuccess: (provider) async {
+//                          Navigator.of(context).pop();
+//                        },
+//                        onError: (err) {
+//                          //
+//                        },
+//                      );
+                    } else {
+                      ErrorDialog().show(
+                        "Please Enter some task to the list",
+                        context: context,
+                      );
+                    }
                   },
                 ),
               ),
