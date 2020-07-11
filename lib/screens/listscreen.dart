@@ -1,35 +1,42 @@
 import 'package:flutter/material.dart';
 
-class Pankaj extends StatefulWidget {
+class ListScreen extends StatefulWidget {
   @override
-  _PankajState createState() => _PankajState();
+  _ListScreenState createState() => _ListScreenState();
 }
 
-class _PankajState extends State<Pankaj> {
+class _ListScreenState extends State<ListScreen> {
+  TextEditingController _textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body :Column(
+      appBar: AppBar(
+        title: Text("Add to list"),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: <Widget>[
-            Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 20)),
-          TextField(
-      obscureText: false,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Enter your to do list",
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    ),
-            IconButton(
-              onPressed: () {
-                //List
-              },
-              icon: Icon(Icons.add),
-              color: Colors.amber,
+            SizedBox(height: 10),
+            TextField(
+              controller: _textEditingController,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                hintText: "Enter to your todo list",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(32.0),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    print("TEXT ENTERED IS  - ${_textEditingController.text}");
+                  },
+                ),
+              ),
             ),
-
-          ]
-    )
-    );}
+          ],
+        ),
+      ),
+    );
+  }
 }
