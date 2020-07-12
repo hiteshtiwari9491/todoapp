@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/common_widgets/provider_callback.dart';
 import 'package:todo_app/view_models/todo_list_view_model.dart';
 
 import '../common_widgets/error_dialog.dart';
@@ -23,6 +24,17 @@ class _ListScreenState extends State<ListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+//        leading: InkWell(
+//          onTap: () {
+//            Navigator.pop(context);
+//          },
+//          child: Center(
+//            child: Text(
+//              'back',
+//              style: TextStyle(fontSize: 12),
+//            ),
+//          ),
+//        ),
         title: Text("Add to list"),
       ),
       body: SingleChildScrollView(
@@ -42,21 +54,19 @@ class _ListScreenState extends State<ListScreen> {
                   onPressed: () {
                     if (_textEditingController.text != null &&
                         _textEditingController.text.isNotEmpty) {
-                      _provider.todoList.add(_textEditingController.text);
-                      Navigator.pop(context);
-//                      providerCallback<TodoListViewModel>(
-//                        context,
-//                        task: (provider) async {
-//                          provider.addToList(_textEditingController.text);
-//                        },
-//                        taskName: (provider) => provider.CREATE_TODO,
-//                        onSuccess: (provider) async {
-//                          Navigator.of(context).pop();
-//                        },
-//                        onError: (err) {
-//                          //
-//                        },
-//                      );
+                      providerCallback<TodoListViewModel>(
+                        context,
+                        task: (provider) async {
+                          await provider.addToList(_textEditingController.text);
+                        },
+                        taskName: (provider) => provider.CREATE_TODO,
+                        onSuccess: (provider) async {
+                          Navigator.of(context).pop();
+                        },
+                        onError: (err) {
+                          //
+                        },
+                      );
                     } else {
                       ErrorDialog().show(
                         "Please Enter some task to the list",

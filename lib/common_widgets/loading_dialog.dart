@@ -14,14 +14,16 @@ class LoadingDialog {
     if (!_showing) {
       _showing = true;
       NavigationKeys.globalNavigatorKey.currentState
-          .push(CustomPopupRoutes(
-              pageBuilder: (_, __, ___) {
-                print("building loader");
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-              barrierDismissible: false))
+          .push(
+        CustomPopupRoutes(
+            pageBuilder: (_, __, ___) {
+              print("building loader");
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+            barrierDismissible: false),
+      )
           .then((_) {
 //        _showing = false;
       });

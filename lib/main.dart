@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/screens/home.dart';
-import 'package:todo_app/screens/listscreen.dart';
+import 'package:todo_app/routes/routes.dart';
+import 'package:todo_app/utils/navigator_keys.dart';
 import 'package:todo_app/view_models/todo_list_view_model.dart';
 
 void main() {
@@ -18,16 +18,16 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          initialRoute: '/',
-          routes: {
-            '/': (context) => Home(),
-            '/listscreen': (context) => ListScreen(),
-          }),
+        title: 'Flutter Demo',
+        navigatorKey: NavigationKeys.globalNavigatorKey,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: SetupRoutes.initialRoute,
+        routes: SetupRoutes.routes,
+      ),
     );
   }
 }

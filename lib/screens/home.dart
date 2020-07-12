@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/common_widgets/provider_callback.dart';
+import 'package:todo_app/routes/routes.dart';
+import 'package:todo_app/utils/route_names.dart';
 import 'package:todo_app/view_models/todo_list_view_model.dart';
 
 class Home extends StatefulWidget {
@@ -8,14 +11,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  TodoListViewModel _provider;
-
-  @override
-  void initState() {
-    super.initState();
-    _provider = Provider.of<TodoListViewModel>(context, listen: false);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,48 +26,119 @@ class _HomeState extends State<Home> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/listscreen');
-              // do something
+              SetupRoutes.changeScreen(context, Routes.ADD_TO_LIST);
             },
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            ListView(
-              shrinkWrap: true,
-              children: _createTodoList(),
-            )
-          ],
-        ),
-      ),
+      body: Consumer<TodoListViewModel>(builder: (context, _provider, child) {
+        return ListView(
+          shrinkWrap: true,
+          children: _createTodoList(_provider),
+        );
+      }),
     );
   }
 
-  _createTodoList() {
+  _createTodoList(TodoListViewModel provider) {
     List<Widget> listItems = [];
-    _provider.todoList.forEach(
+    provider.todoList.forEach(
       (element) {
         listItems.add(
-          Container(
-            margin: EdgeInsets.all(8),
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              border: Border.all(),
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.grey[300],
-            ),
-            child: Text(
-              element,
-              style: TextStyle(
-                fontSize: 16,
+          ExpansionTile(
+            title: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.grey[300],
+              ),
+              child: Text(
+                element,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 18,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    _createButton(
+                      'Edit',
+                      Colors.green,
+                      () {
+                        providerCallback<TodoListViewModel>(
+                          context,
+                          task: (provider) async {
+                            await provider.updateTodo(
+                                provider.todoList.indexOf(element),
+                                "New updated");
+                          },
+                          taskName: (provider) => provider.UPDATE_TODO,
+                          onSuccess: (provider) async {
+                            //
+                          },
+                          onError: (err) {
+                            //
+                          },
+                        );
+                      },
+                    ),
+                    _createButton(
+                      'Delete',
+                      Colors.redAccent,
+                      () {
+                        providerCallback<TodoListViewModel>(
+                          context,
+                          task: (provider) async {
+                            await provider.deleteTodoList(
+                              provider.todoList.indexOf(element),
+                            );
+                          },
+                          taskName: (provider) => provider.DELETE_TODO,
+                          onSuccess: (provider) async {
+                            //
+                          },
+                          onError: (err) {
+                            //
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         );
       },
     );
     return listItems;
+  }
+
+  _createButton(String text, Color buttonColor, Function onClick) {
+    return Flexible(
+      fit: FlexFit.tight,
+      flex: 1,
+      child: InkWell(
+        onTap: onClick,
+        child: Container(
+          padding: EdgeInsets.all(8),
+          color: buttonColor,
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
