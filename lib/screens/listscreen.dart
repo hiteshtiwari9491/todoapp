@@ -6,6 +6,11 @@ import 'package:todo_app/view_models/todo_list_view_model.dart';
 import '../common_widgets/error_dialog.dart';
 
 class ListScreen extends StatefulWidget {
+  String element;
+  int index;
+
+  ListScreen({this.element = "", this.index});
+
   @override
   _ListScreenState createState() => _ListScreenState();
 }
@@ -18,6 +23,9 @@ class _ListScreenState extends State<ListScreen> {
   void initState() {
     super.initState();
     _provider = Provider.of<TodoListViewModel>(context, listen: false);
+    if (widget.element?.isNotEmpty) {
+      _textEditingController.text = widget.element;
+    }
   }
 
   @override
@@ -54,19 +62,39 @@ class _ListScreenState extends State<ListScreen> {
                   onPressed: () {
                     if (_textEditingController.text != null &&
                         _textEditingController.text.isNotEmpty) {
-                      providerCallback<TodoListViewModel>(
-                        context,
-                        task: (provider) async {
-                          await provider.addToList(_textEditingController.text);
-                        },
-                        taskName: (provider) => provider.CREATE_TODO,
-                        onSuccess: (provider) async {
-                          Navigator.of(context).pop();
-                        },
-                        onError: (err) {
-                          //
-                        },
-                      );
+                      if (widget.element?.isNotEmpty) {
+                        //Update the to do
+                        providerCallback<TodoListViewModel>(
+                          context,
+                          task: (provider) async {
+                            await provider.updateTodo(
+                                widget.index, _textEditingController.text);
+                          },
+                          taskName: (provider) => provider.UPDATE_TODO,
+                          onSuccess: (provider) async {
+                            Navigator.pop(context);
+                          },
+                          onError: (err) {
+                            //
+                          },
+                        );
+                      } else {
+                        //Create the to do
+                        providerCallback<TodoListViewModel>(
+                          context,
+                          task: (provider) async {
+                            await provider
+                                .addToList(_textEditingController.text);
+                          },
+                          taskName: (provider) => provider.CREATE_TODO,
+                          onSuccess: (provider) async {
+                            Navigator.of(context).pop();
+                          },
+                          onError: (err) {
+                            //
+                          },
+                        );
+                      }
                     } else {
                       ErrorDialog().show(
                         "Please Enter some task to the list",

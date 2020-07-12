@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/common_widgets/provider_callback.dart';
 import 'package:todo_app/routes/routes.dart';
+import 'package:todo_app/screens/listscreen.dart';
 import 'package:todo_app/utils/route_names.dart';
 import 'package:todo_app/view_models/todo_list_view_model.dart';
 
@@ -46,6 +47,7 @@ class _HomeState extends State<Home> {
       (element) {
         listItems.add(
           ExpansionTile(
+            key: UniqueKey(),
             title: Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -71,21 +73,12 @@ class _HomeState extends State<Home> {
                       'Edit',
                       Colors.green,
                       () {
-                        providerCallback<TodoListViewModel>(
-                          context,
-                          task: (provider) async {
-                            await provider.updateTodo(
-                                provider.todoList.indexOf(element),
-                                "New updated");
-                          },
-                          taskName: (provider) => provider.UPDATE_TODO,
-                          onSuccess: (provider) async {
-                            //
-                          },
-                          onError: (err) {
-                            //
-                          },
-                        );
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ListScreen(
+                            element: element,
+                            index: provider.todoList.indexOf(element),
+                          ),
+                        ));
                       },
                     ),
                     _createButton(
