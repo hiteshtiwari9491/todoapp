@@ -14,7 +14,7 @@ class _LoginState extends State<Login> {
       body: Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+
             children: <Widget>[
               Container(
                   alignment: Alignment.center,
@@ -28,7 +28,10 @@ class _LoginState extends State<Login> {
                 child: TextField(
                   controller: nameController,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
                     labelText: 'Mobile No',
                   ),
                 ),

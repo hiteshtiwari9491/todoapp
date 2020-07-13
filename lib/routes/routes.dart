@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/screens/doctor_signup_screen.dart';
 import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/screens/listscreen.dart';
 import 'package:todo_app/screens/loginscreen.dart';
-import 'package:todo_app/screens/signupscreen.dart';
-import 'package:todo_app/screens/splashscreen.dart';
+import 'package:todo_app/screens/patient_signup_screen.dart';
+import 'package:todo_app/screens/signup_screen.dart';
+import 'package:todo_app/screens/splash_screen.dart';
 
 import '../utils/route_names.dart';
 
 class SetupRoutes {
   // Set initial route here
-  static String initialRoute = Routes.SIGNUP;
+  static String initialRoute = Routes.DOCTOR_SIGNUP;
 
   /// Add entry for new route here
   static Map<String, WidgetBuilder> get routes {
@@ -19,6 +21,8 @@ class SetupRoutes {
       Routes.ADD_TO_LIST: (context) => ListScreen(),
       Routes.SPLASH_SCREEN:(context) => SplashScreen(),
       Routes.SIGNUP:(context) => Signup(),
+      Routes.PATIENT_SIGNUP:(context) => PatientSignup(),
+      Routes.DOCTOR_SIGNUP:(context) => DoctorSignup(),
     };
   }
 
