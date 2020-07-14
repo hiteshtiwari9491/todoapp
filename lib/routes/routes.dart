@@ -11,18 +11,18 @@ import '../utils/route_names.dart';
 
 class SetupRoutes {
   // Set initial route here
-  static String initialRoute = Routes.DOCTOR_SIGNUP;
+  static String initialRoute = Routes.SPLASH_SCREEN;
 
   /// Add entry for new route here
   static Map<String, WidgetBuilder> get routes {
     return {
-      Routes.LOGIN:(context) => Login(),
+      Routes.LOGIN: (context) => Login(),
       Routes.HOME: (context) => Home(),
       Routes.ADD_TO_LIST: (context) => ListScreen(),
-      Routes.SPLASH_SCREEN:(context) => SplashScreen(),
-      Routes.SIGNUP:(context) => Signup(),
-      Routes.PATIENT_SIGNUP:(context) => PatientSignup(),
-      Routes.DOCTOR_SIGNUP:(context) => DoctorSignup(),
+      Routes.SPLASH_SCREEN: (context) => SplashScreen(),
+      Routes.SIGNUP: (context) => Signup(),
+      Routes.PATIENT_SIGNUP: (context) => PatientSignup(),
+      Routes.DOCTOR_SIGNUP: (context) => DoctorSignup(),
     };
   }
 

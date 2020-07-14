@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/services/sizeconfig.dart';
 
 // A customised rounded button
 class RoundedButton extends StatelessWidget {
@@ -31,7 +30,7 @@ class RoundedButton extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        constraints: BoxConstraints(minWidth: SizeConfig.getWidthRatio(60)),
+//        constraints: BoxConstraints(minWidth: 60),
         margin: EdgeInsets.only(bottom: bottomMargin),
         alignment: Alignment.center,
         decoration: BoxDecoration(

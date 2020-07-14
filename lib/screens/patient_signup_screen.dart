@@ -1,6 +1,5 @@
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/utils/theme.dart';
 
 class PatientSignup extends StatefulWidget {
   @override
@@ -10,26 +9,37 @@ class PatientSignup extends StatefulWidget {
 class _PatientSignupState extends State<PatientSignup> {
   TextEditingController nameController = TextEditingController();
   String casehistory_id;
-  List<String> patientcasehistory = [
-    "Cardiac",
-    "Chronic Pain",
-    "AIDS"
-  ];
+  List<String> patientcasehistory = ["Cardiac", "Chronic Pain", "AIDS"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: <Widget>[
+            DropdownButton<String>(
+              hint: Text("Select item"),
+              value: 'A',
+              onChanged: (String value) {
+                print(value);
+              },
+              items: ['A', 'B', 'C'].map((String user) {
+                return DropdownMenuItem<String>(
+                  value: user,
+                  child: Text(
+                    user,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                );
+              }).toList(),
+            ),
             Container(
                 alignment: Alignment.bottomLeft,
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  'Case History',style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
-
-
+                  'Case History',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 )),
             DropDownField(
               onValueChanged: (dynamic value) {
@@ -47,7 +57,6 @@ class _PatientSignupState extends State<PatientSignup> {
                   'Name',
                   style: TextStyle(fontSize: 20),
                 )),
-
             Container(
               padding: EdgeInsets.all(10),
               child: TextField(
@@ -62,9 +71,8 @@ class _PatientSignupState extends State<PatientSignup> {
                 alignment: Alignment.bottomLeft,
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  'Age',style:TextStyle(fontSize: 20),
-
-
+                  'Age',
+                  style: TextStyle(fontSize: 20),
                 )),
             Container(
                 height: 50,
@@ -79,7 +87,7 @@ class _PatientSignupState extends State<PatientSignup> {
                     print("clicked on login button");
                   },
                 )),
-           /* DropDownField(
+            /* DropDownField(
               onValueChanged: (dynamic value) {
                 age_id = value;
               },
@@ -88,8 +96,6 @@ class _PatientSignupState extends State<PatientSignup> {
               hintText: 'Age',
               items: age,
             ),*/
-
-
           ],
         ),
       ),
